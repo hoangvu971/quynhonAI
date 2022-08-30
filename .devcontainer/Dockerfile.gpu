@@ -1,0 +1,48 @@
+FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu18.04
+
+ENV LANG=C.UTF-8
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/HoChiMinh
+
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    sudo \
+    unzip \
+    software-properties-common \
+    gcc \
+    g++ \
+    tar \
+    bash \
+    gcc \
+    python3.10 \ 
+    python3-dev \
+    python3-pip \
+    unzip 
+
+RUN python3 -m pip install --upgrade pip
+
+# Install DS packages
+WORKDIR /src
+
+# Install essential Python packages
+RUN python3 -m pip --no-cache-dir install \
+    numpy \
+    matplotlib \
+    scipy \
+    pandas \
+    jupyter \
+    scikit-learn \
+    scikit-image \
+    seaborn \
+    tensorflow \
+    torch
+
+RUN apt-get install -y luarocks
+
+# Export port for Jupyter Notebook
+EXPOSE 8888
+
+
